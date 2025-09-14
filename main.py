@@ -130,6 +130,23 @@ def tampilkan_visualisasi(koneksi):
     except Exception as e:
         print(f"Terjadi error: '{e}'")
 
+def cari_buah(koneksi):
+    """Mencari data buah berdasarkan nama"""
+    try:
+        nama = input("masukan nama buah :")
+        query = f"SELECT * FROM fruits WHERE name LIKE '%{nama}%'" 
+        df = pd.read_sql(query, koneksi)
+
+        if df.empty:
+            print(f"buah dengan nama {nama}, tidak ditemukan")
+        else:
+            print("\n=== hasil pencarian ===")
+            print(df)
+
+    except Exception as e:
+        print(f"terjadi error: {e}")
+    print("masuk ke fungsi cari buah ")       
+
 def main():
     # Membuat koneksi ke database
     engine = buat_koneksi()
@@ -143,7 +160,8 @@ def main():
             print("2. Tambah buah baru")
             print("3. Hitung rata-rata kolom numerik")
             print("4. Tampilkan visualisasi data")
-            print("5. Keluar dari program")
+            print("5. Cari Buah")
+            print("6. Keluar dari program")
             
             pilihan = input("Masukkan pilihan Anda (1-5): ")
             
@@ -156,6 +174,8 @@ def main():
             elif pilihan == "4":
                 tampilkan_visualisasi(engine)
             elif pilihan == "5":
+                cari_buah(engine)
+            elif pilihan == "6":
                 print("Terima kasih, program dihentikan.")
                 break
             else:
